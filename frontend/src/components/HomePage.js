@@ -300,11 +300,11 @@ const HomePage = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Mail className="text-accent-purple-400" size={20} />
-                  <span className="body-medium">hello@carlasaupairs.com</span>
+                  <span className="body-medium">carlasaupairs@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="text-accent-purple-400" size={20} />
-                  <span className="body-medium">+1 (555) 123-4567</span>
+                  <span className="body-medium">+1 (838) 202-3032</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="text-accent-purple-400" size={20} />
