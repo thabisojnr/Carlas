@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X, MapPin, Users, Heart, Star, ArrowRight, Mail, Phone, Globe, Clock, CheckCircle, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { mockData } from "../data/mock";
 import { useToast } from "../hooks/use-toast";
 
@@ -15,6 +16,7 @@ const HomePage = () => {
   });
 
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,25 +35,38 @@ const HomePage = () => {
     });
   };
 
+  const handleLearnMore = (region, location) => {
+    const locationSlug = location.toLowerCase().replace(/\s+/g, '-').replace(',', '');
+    navigate(`/program/${region}/${locationSlug}`);
+  };
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-page">
       {/* Header Navigation */}
       <header className="header-nav">
         <div className="container flex items-center justify-between">
           <div className="logo-container">
-            <h2 className="text-xl font-mono font-semibold text-primary">Carla's Au Pairs</h2>
+            <h2 className="text-xl font-mono font-semibold text-primary cursor-pointer" onClick={() => navigate('/')}>Carla's Au Pairs</h2>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#programs" className="nav-link">Programs</a>
-            <a href="#process" className="nav-link">Process</a>
-            <a href="#about" className="nav-link">About</a>
-            <a href="#contact" className="nav-link">Contact</a>
+            <button onClick={() => scrollToSection('programs')} className="nav-link">Programs</button>
+            <button onClick={() => scrollToSection('process')} className="nav-link">Process</button>
+            <button onClick={() => scrollToSection('about')} className="nav-link">About</button>
+            <button onClick={() => scrollToSection('contact')} className="nav-link">Contact</button>
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
             <button className="btn-secondary">Login</button>
-            <button className="btn-primary">Get Started</button>
+            <button className="btn-primary" onClick={() => scrollToSection('contact')}>Get Started</button>
           </div>
 
           <button 
@@ -66,13 +81,13 @@ const HomePage = () => {
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-overlay backdrop-blur-md border-t border-light">
             <nav className="container py-4 space-y-4">
-              <a href="#programs" className="block nav-link">Programs</a>
-              <a href="#process" className="block nav-link">Process</a>
-              <a href="#about" className="block nav-link">About</a>
-              <a href="#contact" className="block nav-link">Contact</a>
+              <button onClick={() => scrollToSection('programs')} className="block nav-link">Programs</button>
+              <button onClick={() => scrollToSection('process')} className="block nav-link">Process</button>
+              <button onClick={() => scrollToSection('about')} className="block nav-link">About</button>
+              <button onClick={() => scrollToSection('contact')} className="block nav-link">Contact</button>
               <div className="pt-4 space-y-2">
                 <button className="btn-secondary w-full">Login</button>
-                <button className="btn-primary w-full">Get Started</button>
+                <button className="btn-primary w-full" onClick={() => scrollToSection('contact')}>Get Started</button>
               </div>
             </nav>
           </div>
@@ -99,8 +114,8 @@ const HomePage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-            <button className="btn-primary">Start Application</button>
-            <button className="btn-secondary">Browse Programs</button>
+            <button className="btn-primary" onClick={() => scrollToSection('contact')}>Start Application</button>
+            <button className="btn-secondary" onClick={() => scrollToSection('programs')}>Browse Programs</button>
           </div>
           
           <div className="mt-12 grid grid-cols-3 gap-8 max-w-md mx-auto">
@@ -167,7 +182,12 @@ const HomePage = () => {
                 </div>
                 
                 <div className="mt-auto">
-                  <button className="btn-primary w-full">Learn More</button>
+                  <button 
+                    className="btn-primary w-full"
+                    onClick={() => handleLearnMore(selectedProgram, program.location)}
+                  >
+                    Learn More
+                  </button>
                 </div>
               </div>
             ))}
@@ -395,25 +415,25 @@ const HomePage = () => {
             <div>
               <h4 className="body-medium font-medium mb-4">Programs</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">USA Au Pairs</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Europe Au Pairs</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Host Families</a></li>
+                <li><button onClick={() => scrollToSection('programs')} className="body-small text-gray-300 hover:text-white">USA Au Pairs</button></li>
+                <li><button onClick={() => scrollToSection('programs')} className="body-small text-gray-300 hover:text-white">Europe Au Pairs</button></li>
+                <li><button onClick={() => scrollToSection('contact')} className="body-small text-gray-300 hover:text-white">Host Families</button></li>
               </ul>
             </div>
             <div>
               <h4 className="body-medium font-medium mb-4">Resources</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Application Guide</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Requirements</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">FAQ</a></li>
+                <li><button onClick={() => scrollToSection('process')} className="body-small text-gray-300 hover:text-white">Application Guide</button></li>
+                <li><button onClick={() => scrollToSection('process')} className="body-small text-gray-300 hover:text-white">Requirements</button></li>
+                <li><button onClick={() => scrollToSection('contact')} className="body-small text-gray-300 hover:text-white">FAQ</button></li>
               </ul>
             </div>
             <div>
               <h4 className="body-medium font-medium mb-4">Support</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Contact Us</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Emergency Help</a></li>
-                <li><a href="#" className="body-small text-gray-300 hover:text-white">Privacy Policy</a></li>
+                <li><button onClick={() => scrollToSection('contact')} className="body-small text-gray-300 hover:text-white">Contact Us</button></li>
+                <li><span className="body-small text-gray-300">Emergency Help</span></li>
+                <li><span className="body-small text-gray-300">Privacy Policy</span></li>
               </ul>
             </div>
           </div>
